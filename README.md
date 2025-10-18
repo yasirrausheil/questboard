@@ -31,6 +31,7 @@ Import the SQL files (in this order):
 When running these commands, you will be asked to enter your MySQL root password.
 If your setup has no password, just remove the -p
 
+
 # For Windows PowerShell:
 Get-Content .\ddl.sql | "C:\Program Files\MariaDB 12.0\bin\mysql.exe" -u root -p questboard
 Get-Content .\insert.sql | "C:\Program Files\MariaDB 12.0\bin\mysql.exe" -u root -p questboard
