@@ -14,9 +14,11 @@ Users can create daily, weekly, or onetime quests, earn xp and coins, unlock ava
 
 
 # Installation Instructions
-1. Download and extract the ZIP file of this project.
-2. Open the folder in Visual Studio Code.
-3. Install dependencies by running: npm install
+
+1. Clone the repository:
+bash
+git clone https://github.com/yasirrausheil/questboard
+2. Install dependencies by running: npm install
 
 # Database Setup
 # for For Linux/macOS or Git Bash
