@@ -1,0 +1,110 @@
+<%- include("partials/header") %>
+
+<a href="/profile" class="profile_knapp">Profile</a>
+<a href="/logout" class="logout_knapp">Logout</a>
+
+<div class="dashboard-side-left">
+  <h2>Streaks</h2>
+  <p>General Streak: <%= user.general_streak || 0 %></p>
+  <p>Daily Streak: <%= user.daily_streak || 0 %></p>
+  <p>Weekly Streak: <%= user.weekly_streak || 0 %></p>
+</div>
+
+<div class="dashboard-side-right">
+  <h2>Badges</h2>
+  <% if (!badges || badges.length === 0) { %>
+    <p>No badges yet.</p>
+  <% } else { %>
+    <ul class="badge-list">
+      <% for (let i = 0; i < badges.length; i++) { %>
+        <li>
+          <img src="/images/<%= badges[i].image %>" class="badge-icon">
+          <span><%= badges[i].label %></span>
+        </li>
+      <% } %>
+    </ul>
+  <% } %>
+</div>
+
+<div class="dashboard-container <%= user.theme_bg ? 'user-theme' : '' %>" data-bg="<%= user.theme_bg ? '/images/shop/' + user.theme_bg : '' %>">
+  <div class="dashboard-white-box">
+    <div class="dashboard-box">
+      <div class="dashboard-profile">
+        <% if (user.avatar && user.avatar.startsWith("shop/")) { %>
+          <img src="/images/<%= user.avatar %>" alt="Avatar" class="avatar-big">
+        <% } else { %>
+          <img src="/images/avatars/<%= user.avatar %>" alt="Avatar" class="avatar-big">
+        <% } %>
+        <h2>Welcome, <%= user.username %>!</h2>
+      </div>
+
+      <div class="xp-coins">
+        <p><b>XP:</b> <%= user.xp || 0 %></p>
+        <p><b>Coins:</b> <%= user.coins || 0 %></p>
+      </div>
+
+      <div class="xp-bar">
+        <div id="xpFill" class="xp-fill" data-xp="<%= user.xp || 0 %>"></div>
+      </div>
+      <script src="/xpbar.js"></script>
+      <script>
+        (function () {
+          var el = document.getElementById("xpFill");
+          var userXp = parseInt(el.dataset.xp, 10) || 0;
+          initXpBar(userXp);
+
+          var box = document.querySelector(".dashboard-container.user-theme");
+          if (box && box.dataset.bg) {
+            box.style.backgroundImage = "url(" + box.dataset.bg + ")";
+          }
+        })();
+      </script>
+
+      <div class="dashboard-actions">
+        <a href="/quest_new" class="dashboard-btn">Add New Quest</a>
+        <a href="/shop" class="dashboard-btn">Shop</a>
+      </div>
+
+      <div class="quests-section">
+        <h2>Todays Quests</h2>
+        <% if (!todayQuests || todayQuests.length === 0) { %>
+          <p>No quests for today.</p>
+        <% } else { %>
+          <ul class="quest-list">
+            <% for (let i = 0; i < todayQuests.length; i++) { %>
+              <li>
+                <b><%= todayQuests[i].title %></b>
+                <div class="quest-actions">
+                  <form action="/quests/<%= todayQuests[i].id %>/complete" method="POST" style="display:inline;">
+                    <button type="submit" class="submit_knapp">Complete</button>
+                  </form>
+                  <a href="/quests/<%= todayQuests[i].id %>/edit" class="submit_knapp">Edit</a>
+                </div>
+              </li>
+            <% } %>
+          </ul>
+        <% } %>
+      </div>
+
+      <div class="quests-section">
+        <h2>Upcoming Quests</h2>
+        <% if (!upcomingQuests || upcomingQuests.length === 0) { %>
+          <p>No upcoming quests.</p>
+        <% } else { %>
+          <ul class="quest-list">
+            <% for (let i = 0; i < upcomingQuests.length; i++) { %>
+              <li>
+                <b><%= upcomingQuests[i].title %></b> (<%= upcomingQuests[i].type %>)
+                <div class="quest-actions">
+                  <a href="/quests/<%= upcomingQuests[i].id %>/edit" class="submit_knapp">Edit</a>
+                </div>
+              </li>
+            <% } %>
+          </ul>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include("partials/footer") %>

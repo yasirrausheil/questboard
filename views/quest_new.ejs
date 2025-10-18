@@ -1,0 +1,48 @@
+<%- include("partials/header") %>
+
+<div class="login-container">
+  <div class="login-box">
+    <h2>New Quest</h2>
+    <p class="login-subtitle">Create a new quest</p>
+
+    <% if (error) { %>
+      <p class="login-error"><%= error %></p>
+    <% } %>
+
+    <form action="/quests" method="POST">
+      <div class="input-box">
+        <label for="title">Title</label>
+        <input id="title" type="text" name="title" class="input-field" required>
+      </div>
+
+      <div class="input-box">
+        <label for="description">Description (optional)</label>
+        <textarea id="description" name="description" class="input-field" rows="3"></textarea>
+      </div>
+
+      <div class="input-box">
+        <label for="type">Quest Type</label>
+        <select id="type" name="type" class="input-field" required>
+          <option value="daily">Daily — 10 XP / 5 coins</option>
+          <option value="once">One time — 15 XP / 8 coins</option>
+          <option value="weekly">Weekly — 50 XP / 20 coins</option>
+        </select>
+      </div>
+
+      <div class="input-box">
+        <label for="due_at">Due Date</label>
+        <input id="due_at" type="date" name="due_at" class="input-field" required>
+      </div>
+
+      <div class="input-submit">
+        <button type="submit" class="submit_knapp">Create Quest</button>
+      </div>
+    </form>
+
+    <div class="sign-up-link">
+      <p><a href="/dashboard"> Back to Dashboard</a></p>
+    </div>
+  </div>
+</div>
+
+<%- include("partials/footer") %>

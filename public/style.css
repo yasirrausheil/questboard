@@ -1,0 +1,435 @@
+/* vi gör vår login och signup sidan först */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: url("/images/backgrounds/bg-profil.jpg") no-repeat center center fixed;
+  background-size: cover;
+  padding: 24px;
+}
+
+.login-box {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 360px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.login-box h2, .login-subtitle {
+  color: #4B0082;
+}
+
+.login-error {
+  color: red;
+  background: rgba(255, 255, 255, 0.6);
+  padding: 4px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+.input-box {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin-bottom: 12px;
+}
+
+.input-box label {
+  color: #4B0082;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.input-field {
+  padding: 8px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}
+
+.input-field:focus {
+  outline: none;
+  border: 2px solid #4B0082;
+}
+
+.submit_knapp {
+  background: #4B0082;
+  color: white;
+  border: 2px solid #4B0082;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 8px 12px;
+  transition: all 0.2s ease;
+}
+
+.submit_knapp:hover {
+  background: transparent;
+  color: #4B0082;
+  transform: scale(1.05);
+}
+
+.sign-up-link a {
+  color: #4B0082;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.avatars {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.avatars img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  box-shadow: 0 0 5px #4B0082;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.avatars input[type="radio"]:checked + img {
+  border-color: #4B0082;
+}
+
+.avatars input[type="radio"] {
+  display: none;
+}
+
+
+.dashboard-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: url("/images/backgrounds/game-bg.jpg") no-repeat center center fixed;
+  background-size: cover;
+  padding: 24px;
+}
+
+
+.dashboard-side-left {
+  position: fixed;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  max-width: 240px;
+  color: white;
+  text-shadow: 0 1px 3px black;
+}
+
+.dashboard-side-right {
+  position: fixed;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  max-width: 240px;
+  color: white;
+  text-shadow: 0 1px 3px black;
+}
+
+.badge-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.badge-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  padding: 6px 10px;
+  margin-bottom: 8px;
+  color: white;
+  font-weight: 600;
+}
+
+.badge-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+}
+
+.dashboard-white-box {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  padding: 30px;
+  max-width: 400px;
+  text-align: center;
+}
+
+.dashboard-profile h2 {
+  color: #4B0082;
+  margin-top: 10px;
+}
+
+.avatar-big {
+  width: 90px;
+  height: 80px;
+  border-radius: 100%;
+  border: 3px solid #4B0082;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  margin-bottom: 10px;
+}
+
+.profile-header img.avatar-big {
+  margin-top: 20px;
+}
+
+.xp-bar {
+  width: 300px;
+  height: 20px;
+  background: #ddd;
+  border-radius: 10px;
+  margin: 10px auto;
+  overflow: hidden;
+  box-shadow: 0 0 4px #4B0082;
+}
+
+.xp-fill {
+  height: 100%;
+  background: #4B0082;
+  width: 0;
+  transition: width 0.4s ease;
+}
+
+.dashboard-btn {
+  background: #4B0082;
+  color: white;
+  border: 2px solid #4B0082;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 6px;
+  font-weight: bold;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.2s ease;
+}
+
+.dashboard-btn:hover {
+  background: white;
+  color: #4B0082;
+  transform: scale(1.08);
+}
+
+.user-theme {
+  background-size: cover;
+  background-position: center;
+}
+
+
+.profile_knapp, .logout_knapp {
+  position: absolute;
+  top: 12px;
+  background: #4B0082;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 5px;
+  text-decoration: none;
+  border: 2px solid #4B0082;
+  transition: all 0.2s ease;
+  font-weight: bold;
+}
+
+.profile_knapp:hover, .logout_knapp:hover {
+  background: white;
+  color: #4B0082;
+  transform: scale(1.08);
+}
+
+.profile_knapp { left: 12px; }
+.logout_knapp { right: 12px; }
+
+.quests-section {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 20px;
+  text-align: left;
+}
+
+.quest-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.quest-list li {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  padding: 8px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.quest-list li strong {
+  color: #4B0082;
+}
+
+.shop-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: url("/images/backgrounds/game-bg.jpg") no-repeat center center fixed;
+  background-size: cover;
+  padding: 24px;
+}
+
+.shop-box {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 600px;
+  text-align: center;
+}
+
+.shop-item {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.shop-image {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+
+.shop-bg-image {
+  border-radius: 6px;
+  width: 140px;
+  height: 90px;
+  object-fit: cover;
+}
+
+.profile-box {
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 600px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.profile-section {
+  margin-top: 16px;
+  padding: 10px;
+  border: 1px solid rgba(75, 0, 130, 0.3);
+  background: rgba(255, 255, 255, 0.4);
+  text-align: left;
+}
+
+.profile-box h2 {
+  color: #4B0082;
+}
+
+.collection-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 12px;
+}
+
+.collection-item img {
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  border: 2px solid #4B0082;
+}
+
+.equipped-btn {
+  background: gray;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 6px 10px;
+  cursor: default;
+  margin-top: 6px;
+}
+
+.badge-list li {
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+  color: #4B0082;
+}
+
+
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  color: white;
+  background: rgba(0, 0, 0, 0.4);
+  text-align: center;
+  padding: 8px 0;
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    flex-direction: column;
+    padding: 12px;
+  }
+
+  .dashboard-side-left,
+  .dashboard-side-right {
+    position: static;
+    transform: none;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .dashboard-white-box {
+    width: 95%;
+    max-width: 100%;
+    padding: 16px;
+  }
+
+  .dashboard-btn {
+    width: 100%;
+    margin: 8px 0;
+  }
+
+  .quest-list li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .shop-box, .profile-box {
+    width: 95%;
+    max-width: 100%;
+    padding: 16px;
+  }
+
+  .collection-grid {
+    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+  }
+
+  .avatar-big {
+    width: 70px;
+    height: 70px;
+  }
+}

@@ -1,0 +1,114 @@
+<%- include("partials/header") %>
+
+<div class="login-container">
+  <div class="login-box profile-box">
+    <h2>Profile</h2>
+    <p class="login-subtitle">Stats, badges, collection and history</p>
+
+    <a href="/dashboard" class="back-btn">← Back to Dashboard</a>
+
+    <div class="profile-header">
+      <% if (user.avatar && user.avatar.startsWith("shop/")) { %>
+        <img src="/images/<%= user.avatar %>" alt="Avatar" class="avatar-big">
+      <% } else { %>
+        <img src="/images/avatars/<%= user.avatar || 'avatar1.png' %>" alt="Avatar" class="avatar-big">
+      <% } %>
+      <h1><%= user.username %></h1>
+    </div>
+
+    <div class="profile-section">
+      <h2>Stats</h2>
+      <p>Level: <%= user.level || 1 %></p>
+      <p>XP: <%= user.xp || 0 %></p>
+      <p>Coins: <%= user.coins || 0 %></p>
+      <p>General Streak: <%= user.general_streak || 0 %></p>
+      <p>Daily Streak: <%= user.daily_streak || 0 %></p>
+      <p>Weekly Streak: <%= user.weekly_streak || 0 %></p>
+    </div>
+
+    <div class="profile-section">
+      <h2>Badges</h2>
+      <% if (!badges || badges.length === 0) { %>
+        <p>No badges yet.</p>
+      <% } else { %>
+        <ul class="badge-list">
+          <% for (let i = 0; i < badges.length; i++) { %>
+            <li>
+              <img src="/images/<%= badges[i].image %>" alt="Badge" class="badge-icon">
+              <%= badges[i].label %>
+            </li>
+          <% } %>
+        </ul>
+      <% } %>
+    </div>
+    <div class="profile-section">
+      <h2>Collection</h2>
+
+      <% if (user.collection && user.collection.length > 0) { %>
+        <div class="collection-grid">
+          <% for (let i = 0; i < user.collection.length; i++) {
+               let item = user.collection[i]; %>
+            <div class="collection-item">
+              <img src="/images/<%= item.image %>" alt="<%= item.name %>">
+              <p><%= item.name %></p>
+
+              <% if (item.type === "avatar") { %>
+                <% if (item.id === "default_avatar") { %>
+                  <% if (equippedAvatarId === "default_avatar") { %>
+                    <button disabled class="equipped-btn">Equipped</button>
+                  <% } else { %>
+                    <form action="/profile/equip/<%= item.id %>" method="POST">
+                      <button type="submit" class="submit_knapp">Equip</button>
+                    </form>
+                  <% } %>
+                <% } else { %>
+                  <% if (equippedAvatarId === item.id) { %>
+                    <button disabled class="equipped-btn">Equipped</button>
+                  <% } else { %>
+                    <form action="/profile/equip/<%= item.id %>" method="POST">
+                      <button type="submit" class="submit_knapp">Equip</button>
+                    </form>
+                  <% } %>
+                <% } %>
+
+              <% } else if (item.type === "theme") { %>
+                <% if (equippedThemeId === item.id) { %>
+                  <button disabled class="equipped-btn">Equipped</button>
+                <% } else { %>
+                  <form action="/profile/equip/<%= item.id %>" method="POST">
+                    <button type="submit" class="submit_knapp">Equip</button>
+                  </form>
+                <% } %>
+              <% } %>
+            </div>
+          <% } %>
+        </div>
+      <% } else { %>
+        <p>No items bought yet.</p>
+      <% } %>
+    </div>
+    <div class="profile-section">
+      
+      <h2>History</h2>
+      <% if (!history || history.length === 0) { %>
+        <p>No quest history yet.</p>
+      <% } else { %>
+        <ul class="quest-list">
+          <% for (let i = 0; i < history.length; i++) {
+               let q = history[i]; %>
+            <li>
+              <strong><%= q.title %></strong> (<%= q.type %>)<br>
+              <% if (q.status === "completed") { %>
+                <small>✅ Completed on: <%= new Date(q.date).toLocaleDateString() %></small>
+              <% } else { %>
+                <small>❌ Missed on: <%= new Date(q.date).toLocaleDateString() %></small>
+              <% } %>
+            </li>
+          <% } %>
+        </ul>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<%- include("partials/footer") %>
