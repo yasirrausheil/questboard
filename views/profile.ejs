@@ -57,7 +57,7 @@
                   <% if (equippedAvatarId === "default_avatar") { %>
                     <button disabled class="equipped-btn">Equipped</button>
                   <% } else { %>
-                    <form action="/profile/equip/<%= item.id %>" method="POST">
+                    <form action="/profile/equip/default-avatar" method="POST">
                       <button type="submit" class="submit_knapp">Equip</button>
                     </form>
                   <% } %>
@@ -88,7 +88,6 @@
       <% } %>
     </div>
     <div class="profile-section">
-      
       <h2>History</h2>
       <% if (!history || history.length === 0) { %>
         <p>No quest history yet.</p>

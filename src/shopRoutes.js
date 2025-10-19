@@ -84,7 +84,10 @@ router.post("/shop/buy/:itemId", requireLogin, async (req, res) => {
       });
     }
 
-    const [exists] = await pool.query("SELECT 1 FROM user_items WHERE user_id = ? AND item_id = ?", [userId, itemId]);
+    const [exists] = await pool.query(
+      "SELECT 1 FROM user_items WHERE user_id = ? AND item_id = ?",
+      [userId, itemId]
+    );
     if (exists.length > 0) return res.redirect("/shop");
 
     await pool.query("UPDATE users SET coins = coins - ? WHERE id = ?", [item.price, userId]);
@@ -107,7 +110,10 @@ router.post("/shop/equip/:itemId", requireLogin, async (req, res) => {
     const [[item]] = await pool.query("SELECT * FROM shop_items WHERE id = ?", [itemId]);
     if (!item) return res.redirect("/shop");
 
-    const [owns] = await pool.query("SELECT 1 FROM user_items WHERE user_id = ? AND item_id = ?", [userId, itemId]);
+    const [owns] = await pool.query(
+      "SELECT 1 FROM user_items WHERE user_id = ? AND item_id = ?",
+      [userId, itemId]
+    );
     if (owns.length === 0) return res.redirect("/shop");
 
     const updated = await equipItem(pool, userId, item);
@@ -120,35 +126,16 @@ router.post("/shop/equip/:itemId", requireLogin, async (req, res) => {
   }
 });
 
-router.post("/profile/equip/:itemId", requireLogin, async (req, res) => {
-  const pool = req.app.locals.pool;
-  const userId = req.session.user.id;
-  const itemId = parseInt(req.params.itemId);
-
-  try {
-    const [[item]] = await pool.query("SELECT * FROM shop_items WHERE id = ?", [itemId]);
-    if (!item) return res.redirect("/profile");
-
-    const [owns] = await pool.query("SELECT 1 FROM user_items WHERE user_id = ? AND item_id = ?", [userId, itemId]);
-    if (owns.length === 0) return res.redirect("/profile");
-
-    const updated = await equipItem(pool, userId, item);
-    if (updated) req.session.user[updated.field] = updated.value;
-
-    res.redirect("/profile");
-  } catch (err) {
-    console.log(err);
-    res.redirect("/profile");
-  }
-});
-
 router.post("/profile/equip/default-avatar", requireLogin, async (req, res) => {
   const pool = req.app.locals.pool;
   const userId = req.session.user.id;
 
   try {
-    await pool.query("UPDATE users SET avatar = ? WHERE id = ?", ["avatar1.png", userId]);
-    req.session.user.avatar = "avatar1.png";
+    const [[user]] = await pool.query("SELECT signup_avatar FROM users WHERE id = ?", [userId]);
+    const baseAvatar = user ? user.signup_avatar : "avatar1.png";
+
+    await pool.query("UPDATE users SET avatar = ? WHERE id = ?", [baseAvatar, userId]);
+    req.session.user.avatar = baseAvatar;
     res.redirect("/profile");
   } catch (err) {
     console.log(err);
@@ -163,6 +150,36 @@ router.post("/profile/equip/default-bg", requireLogin, async (req, res) => {
   try {
     await pool.query("UPDATE users SET theme_bg = NULL WHERE id = ?", [userId]);
     req.session.user.theme_bg = null;
+    res.redirect("/profile");
+  } catch (err) {
+    console.log(err);
+    res.redirect("/profile");
+  }
+});
+
+router.post("/profile/equip/:itemId", requireLogin, async (req, res) => {
+  const pool = req.app.locals.pool;
+  const userId = req.session.user.id;
+  const itemIdRaw = req.params.itemId;
+
+  try {
+    const itemId = parseInt(itemIdRaw);
+    if (isNaN(itemId)) {
+      return res.redirect("/profile");
+    }
+
+    const [[item]] = await pool.query("SELECT * FROM shop_items WHERE id = ?", [itemId]);
+    if (!item) return res.redirect("/profile");
+
+    const [owns] = await pool.query(
+      "SELECT 1 FROM user_items WHERE user_id = ? AND item_id = ?",
+      [userId, itemId]
+    );
+    if (owns.length === 0) return res.redirect("/profile");
+
+    const updated = await equipItem(pool, userId, item);
+    if (updated) req.session.user[updated.field] = updated.value;
+
     res.redirect("/profile");
   } catch (err) {
     console.log(err);
