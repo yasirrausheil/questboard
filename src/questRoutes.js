@@ -61,6 +61,14 @@ router.post("/quests/:id/update", requireLogin, async (req, res) => {
   const { title, description, type, due_at } = req.body;
 
   try {
+    const today = new Date().toISOString().split("T")[0];
+    if (due_at < today) {
+      return res.render("quest_edit", {
+        quest: { id: questId, title, description, type, due_at },
+        error: "Date must be today or later"
+      });
+    }
+
     const [old] = await pool.query("SELECT * FROM quests WHERE id=? AND user_id=?", [questId, userId]);
     if (old.length === 0) return res.redirect("/dashboard");
 

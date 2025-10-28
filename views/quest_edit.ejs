@@ -6,7 +6,7 @@
     <p class="login-subtitle">Update your quest details</p>
 
     <% if (error) { %>
-      <p class="login-error"><%= error %></p>
+      <p class="login-error"><%= error %></p> <!-- ✅ Visar backend-valideringsfel -->
     <% } %>
 
     <form action="/quests/<%= quest.id %>/update" method="POST">
@@ -36,7 +36,7 @@
           type="date"
           name="due_at"
           class="input-field"
-          value="<%= quest.due_at || '' %>">
+          value="<%= quest.due_at || '' %>"> 
       </div>
 
       <div class="input-submit">
